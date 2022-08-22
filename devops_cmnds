@@ -1,0 +1,259 @@
+yum install git -y
+
+
+echo "# dev-repo-01-08" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/lalitha1999-git/dev-repo-01-08.git
+git push -u origin main
+
+
+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(pswd for push)
+
+git log --oneline --graph --decorate --all
+https://github.com/vikas99341/Git-scm-masterclass/
+
+wget https://backup-edureka.s3.ap-south-1.amazonaws.com/sample-project.zip (Assignment1)
+unzip {{zipfile}}
+
+
+
+yum install java-1.8* -y
+
+jenkins.io/doc/book/installing
+https://www.jenkins.io/doc/book/installing/linux/#red-hat-centos
+
+sudo wget -O /etc/yum.repos.d/jenkins.repo \
+    https://pkg.jenkins.io/redhat-stable/jenkins.repo
+    
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+
+sudo yum upgrade -y
+
+sudo yum install jenkins
+
+sudo systemctl daemon-reload
+
+service jenkins status
+
+service jenkins start
+
+ 13.235.144.149:8080
+ 
+ manage jenkins--> manage plugins go to Available then search for MAven and install it then restart the jenkins
+
+
+Maven:
+
+yum install maven
+
+how to use maven ? go to website maven in 5 mins 
+
+mvn archetype:generate -DgroupId=com.mycompany.app -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false
+
+yum install tree
+
+mvn package
+
+java -cp target/my-app-1.0-SNAPSHOT.jar com.mycompany.app.App
+
+
+create web application project with maven
+
+https://mkyong.com/maven/how-to-create-a-web-application-project-with-maven/
+
+mvn archetype:generate -DgroupId=com.myapplication.web -DartifactId=java-web-project -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false
+
+Maven home: /usr/share/maven
+Java home: /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.332.b09-1.amzn2.0.2.x86_64/jre
+
+connection to master and slave node
+
+create a AMI for current instance and launch new instance using AMI and new key-pair
+connect to slave machine
+cmnd:
+sudo su -
+hostname jenkins-slave
+adduser jenkinsadmin
+psswd jenkinsadmin
+
+visudo
+add jenkinsadmin under root user ALL=(ALL)       NOPASSWD: ALL
+save and exit(:wq!)
+cd /etc/ssh
+nano sshd(file)
+make Authenticationpasswd as Yes then save and exit
+service sshd reload
+service sshd restart
+su jekinsadmin
+
+connect to master instance:
+cmnd:
+sudo su -
+hostname jenkins-slave
+adduser jenkinsadmin
+psswd jenkinsadmin
+
+visudo
+add jenkinsadmin under root user ALL=(ALL)       NOPASSWD: ALL
+save and exit(:wq!)
+cd /etc/ssh
+nano sshd(file)
+make Authenticationpasswd as Yes then save and exit
+service sshd reload
+service sshd restart
+su jekinsadmin
+ssh-keygen
+
+establish ssh connection
+cd /etc/ssh
+ssh-copy-id jenkinsadmin@172.31.7.109
+
+(ssh 'jenkinsuser@172.31.41.49) to connect master to slave
+
+Install tomcat
+wget https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.81/bin/apache-tomcat-8.5.81.tar.gz
+
+https://github.com/yankils/Simple-DevOps-Project/tree/master/Tomcat
+
+ln -s /opt/apache-tomcat-<version>/bin/startup.sh /usr/local/bin/tomcatup
+ln -s /opt/apache-tomcat-<version>/bin/shutdown.sh /usr/local/bin/tomcatdown
+
+
+upadate java 8 to java 11 for jenkins
+https://github.com/vikas99341/jenkins-maven-19-02/blob/main/Role-based-authentication
+
+cmnds:
+sudo amazon-linux-extras install java-openjdk11
+alternatives --config java
+java -version
+service jenkins restart
+
+https://www.jenkins.io/doc/book/pipeline/
+pipeline
+1.declarative pipe line 2.scripted pipe line
+
+declrative:
+pipeline {
+    agent any 
+    stages {
+        stage('Build') { 
+            steps {
+                echo "In Build stage"
+            }
+        }
+        stage('Test') { 
+            steps {
+                echo "In Test stage"
+            }
+        }
+        stage('Deploy') { 
+            steps {
+                echo "In Deploy stage"
+            }
+        }
+         stage('Archive') { 
+            steps {
+                echo "In Archive stage"
+            }
+        }
+    }
+}
+
+
+Jenkinsfile (Scripted Pipeline)
+node {  
+    stage('Build') { 
+        echo "In Build stage"
+    }
+    stage('Test') { 
+        echo "In Test stage"
+    }
+    stage('Deploy') { 
+        echo "In Deploy stage"
+    }
+     stage('Archive') { 
+        echo "In Archive stage"
+    }
+}
+
+
+configuration Mangement
+ansible (automation script)  
+
+start both master and slave instances
+in master:
+hostname ansible master
+sudo su -
+yum install ansible
+cd /etc/ansible
+ls -l
+cat hosts
+ take the private ip of slave instance
+ nano hosts 
+|test server|{at last line of file}
+{paste the private ip of slave instance} save it
+su jenkinsuser
+ansible -m ping all
+ip addr 
+
+ https://github.com/vikas99341/Ansible/blob/main/ansible-adhoc-command
+ ansible all -m ping 
+ ansible  test server m setup
+  
+  
+  automation Using Ansible
+  1. ad-hoc cmnds 2.palybooks
+  
+  sudo nano hosts
+   ad-hoc cmnds: one time executable
+   
+   
+
+ansible all -m ping -- > Check connectivity between master and worker nodes
+ansible test-server -m setup -- > collect ansible facts of worker nodes
+ansible test-server -m file -a "dest=/home/ansadmin/test-file state=directory"  -- > Create new directory on worker machine
+ansible test-server -m file -a "dest=/home/ansadmin/test-file state=absent" -- > Delete the directory from worker machine
+ansible test-server -m shell -a "uptime"
+ansible test-server -m shell -a "df -h "
+ansible test-server -m shell -a "mkdir test-server"
+ansible test-server -m shell -a "rmdir test-server"
+ansible test-server -m copy -a "src=/etc/ansible/sample.txt dest=/home/ansadmin" --> copy file from source to destination(remote server)
+ansible test-server -m yum -a "name=httpd state=present" -b -- > Install a software (httpd) on remote machine
+ansible test-server -m service -a "name=httpd state=started" -b -- > start the service on worker node
+ansible test-server -m user -a "name=vikas" -b --> Create a new user
+ansible test-server -m user -a "name=vikas state=absent" -b --> delete the user
+ansible test-server -a "/sbin/reboot" -b  --> reboot command
+
+2.playbook
+
+sudo nano ping.yml
+
+--- {starting fo yml file}
+ - name: ping-playbook {indentation is imp}
+   hosts: test-server
+   tasks:
+     - name: Laerning ping module
+       ping:
+       
+       
+ansible-palybook {name of the yml file}
+    
+    
+    - hosts: test-server
+  user: jenkinsuser
+  become: True
+  tasks:
+    - name: Ensure pwgen is installed
+      yum:
+         name: pwgen
+         state: present
+         update_cache: True
+    - name: Generate password
+      shell: pwgen -N 1 -s 30
+      register: mypass
+    - name: Print the generated password
+      debug:
+      msg: "The password is {{ mypass }}"   
