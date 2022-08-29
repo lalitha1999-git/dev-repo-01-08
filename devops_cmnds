@@ -193,7 +193,7 @@ ls -l
 cat hosts
  take the private ip of slave instance
  nano hosts 
-|test server|{at last line of file}
+[test server]{at last line of file}
 {paste the private ip of slave instance} save it
 su jenkinsuser
 ansible -m ping all
@@ -240,9 +240,10 @@ sudo nano ping.yml
        
        
 ansible-palybook {name of the yml file}
+  
+  registers in yaml:  
     
-    
-    - hosts: test-server
+ 1.  /* - hosts: test-server
   user: jenkinsuser
   become: True
   tasks:
@@ -257,3 +258,130 @@ ansible-palybook {name of the yml file}
     - name: Print the generated password
       debug:
       msg: "The password is {{ mypass }}"   
+      */
+  2. 
+  - hosts: test-server
+    tasks:
+      - shell: ls /tmp
+        register: out
+        
+       - debug:
+           msg: "{[out.stdout_lines]}"    
+      
+      
+   Roles:
+   
+   cd roles
+   yum install tree y
+   
+---
+- hosts: test-server
+  remote_user: ansadmin
+
+  tasks:
+    - name: Installing Apache, MYSQL DB Community edition & PHP
+      yum:
+        name:
+          - httpd
+          - php
+          - php-mysql
+        state: installed
+
+    - name: Enabling httpd service and start the service
+      service:
+        name: httpd
+        enabled: yes
+        state: started
+
+    - name: Copying your php file in the /var/www/html
+      copy:
+        src: /etc/ansible/index.php
+        dest: /var/www/html/index.php
+        force: yes
+
+      notify:
+          - restart httpd service
+
+  handlers:
+    - name: restart httpd service
+      service:
+        name: httpd
+        state: restarted
+   
+   
+   
+   integrating ansible with jenkins:
+   
+   manage jenkins >> plugin Manger>available> ansible
+      
+     Docker:
+     
+  1. yum install docker
+  2.docker ps
+  3.docker service status
+  4.service docker start
+  5.systemctl enable docker
+  
+  6.docker images
+  7. docker pull nginx:latest 
+  docker run --name sampe-nginx -d nginx:latest
+  docker ps -a
+  docker rm -f {container ID}
+  docker pull nginx:{version}
+    docker stop {container Id}
+  docker start {container Id}
+  docker inspect {container ID }
+  docker run --name nginx-port -d -p 9000:80 nginx:latest
+   
+   create a docker image:
+   1. nano dockerfile
+   2. nano index.html
+   docker build -t lalithab/nginx:latest . 
+    docker run --name my-first-container -d lalithab/nginx:latest
+  docker push lalithab/nginx:latest
+   
+   
+    docker login:
+    
+    difference b/w CMD and entrypoint
+   
+   Docker:volume 
+    
+ docker volume --help
+ docker volume create vol1
+ docker volume ls
+ docker volume  inspect vol1
+ docker run --name my-first-container -v {path} -d lalithab/nginx:latest
+  docker run --name my-first-volume -v vol1:/app -d nginx:latest 
+  
+  docker exce -it {id} /bin/bash
+  ls -l
+  cd /app
+  touch file1.txt
+  echo "some content pushed from the container" >> file.txt
+  exit
+ cat file.txt
+ exit
+ docker ps -a
+ docker rm -f {id}
+  docker run --name my-first-container -v {path} -d lalithab/nginx:latest
+  docker ps -a
+     docker exce -it {id} /bin/bash 
+     cd /app
+     ls -l
+     cat file.txt
+     
+     Docker: mount
+ 
+ cd
+exit
+docker volume create vol2
+docker run -d --name devtest --mount source=vol2,target=/app nginx:latest  
+docker ps -a
+docker execn-t {id} /bin/bash
+cd /app
+touch sample.txt
+exit
+docker inspect vol2
+ 
+        
